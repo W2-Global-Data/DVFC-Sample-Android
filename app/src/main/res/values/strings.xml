@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">w2-clean-example</string>
+    <string name="document_capture">Document Capture</string>
+    <string name="document_verification">Document Verification</string>
+    <string name="facial_capture">Facial Capture</string>
+    <string name="facial_comparison">Facial Comparison</string>
+    <string name="capture">Capture</string>
+    <string name="verify">Verify</string>
+    <string name="compare">Compare</string>
+</resources>
