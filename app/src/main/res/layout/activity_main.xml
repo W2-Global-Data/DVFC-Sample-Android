@@ -73,5 +73,17 @@
             android:layout_height="wrap_content"
             android:text="@string/compare" />
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/document_verification_using_rest_endpoint" />
+
+        <Button
+            android:id="@+id/verifyRestEndpointsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/verify_using_rest_endpoints" />
+
     </LinearLayout>
 </ScrollView>

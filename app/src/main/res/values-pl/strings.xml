@@ -1,15 +1,17 @@
-<!-- Facial Comparison -->
-<string name="hg_move_in_frame">Umiesc twarz w ramce</string>
-<string name="hg_hold_steady">Trzymaj równo</string>
-<string name="hg_blink">Mrugnij!</string>
-<string name="hg_too_close">Za blisko! Oddal się</string>
-<string name="hg_too_far_away">Przybliż się</string>
-<string name="hg_align_face_and_blink">Wyrównaj twarz i mrugnij</string>
+<resources>
+    <!-- Facial Comparison -->
+    <string name="hg_move_in_frame">Umieść twarz w ramce</string>
+    <string name="hg_hold_steady">Trzymaj równo</string>
+    <string name="hg_blink">Mrugnij!</string>
+    <string name="hg_too_close">Za blisko! Oddal się</string>
+    <string name="hg_too_far_away">Przybliż się</string>
+    <string name="hg_align_face_and_blink">Wyrównaj twarz i mrugnij</string>
 
 
-<!-- Document Verification -->
-<string name="acuant_camera_align">Wyrównaj kamerę</string>
-<string name="acuant_camera_move_closer">Przybliż się</string>
-<string name="acuant_camera_not_in_frame">Za blisko!</string>
-<string name="acuant_camera_hold_steady">Trzymaj równo</string>
-<string name="acuant_camera_capturing">Uchwycanie zdjęcia</string>
+    <!-- Document Verification -->
+    <string name="acuant_camera_align">Wyrównaj kamerę</string>
+    <string name="acuant_camera_move_closer">Przybliż się</string>
+    <string name="acuant_camera_not_in_frame">Za blisko!</string>
+    <string name="acuant_camera_hold_steady">Trzymaj równo</string>
+    <string name="acuant_camera_capturing">Uchwycanie zdjęcia</string>
+</resources>

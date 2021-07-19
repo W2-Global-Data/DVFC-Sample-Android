@@ -2,11 +2,10 @@ package com.example.w2_clean_example
 
 import android.content.Intent
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.w2globaldata.documentverification_client.DocumentVerificationClientBuilder
 import com.w2globaldata.documentverification_client_abstractions.*
 import com.w2globaldata.documentverification_client_capture.DocumentVerificationCapturerBuilder
@@ -15,20 +14,23 @@ import com.w2globaldata.documentverification_client_capture_abstractions.Documen
 import com.w2globaldata.documentverification_client_capture_abstractions.DocumentVerificationCapturer
 import com.w2globaldata.facialcomparison_client.FacialComparisonClientBuilder
 import com.w2globaldata.facialcomparison_client_abstractions.Facial
-import com.w2globaldata.facialcomparison_client_abstractions.FacialComparisonClient
 import com.w2globaldata.facialcomparison_client_abstractions.FacialComparisonException
 import com.w2globaldata.facialcomparison_client_capture.FacialComparisonCapturerBuilder
-import com.w2globaldata.facialcomparison_client_capture.FacialComparisonCapturerContext
 import com.w2globaldata.facialcomparison_client_capture_abstractions.FacialCapture
 import com.w2globaldata.facialcomparison_client_capture_abstractions.FacialComparisonCaptureEvents
 import com.w2globaldata.facialcomparison_client_capture_abstractions.FacialComparisonCapturer
-import com.w2globaldata.facialcomparison_client_capture_abstractions.OnCapturedHandler
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
-import java.lang.Exception
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.util.concurrent.TimeUnit
+
 
 private val licenseKey = "YOUR LICENSE KEY HERE"
-private val clientRef = "client-reference"
+private val clientRef = "clientreference"
+private val httpClient = OkHttpClient()
+
 class MainActivity : AppCompatActivity() {
 
     private var docCapturer: DocumentVerificationCapturer? = null
@@ -46,6 +48,8 @@ class MainActivity : AppCompatActivity() {
 
         verifyDocButton.setOnClickListener { verifyDoc() }
         compareFacesButton.setOnClickListener { compareFaces() }
+
+        verifyRestEndpointsButton.setOnClickListener { verifyUsingRestEndpoints() }
     }
 
     private fun captureDoc() {
@@ -127,6 +131,60 @@ class MainActivity : AppCompatActivity() {
                 updateMessage("Something went wrong: ${e.localizedMessage}")
             }
         }
+    }
+
+    private fun verifyUsingRestEndpoints() {
+        val image = docImage
+
+        if (image == null) {
+            Toast.makeText(this, "Capture a document image before verifying", Toast.LENGTH_LONG)
+                .show()
+            return
+        }
+
+        message.text = "Loading..."
+        GlobalScope.launch {
+            val page = image.toByteArray()
+
+            try {
+                val documentType = "ID3"
+                val response = verifyImage(page!!, documentType)
+
+                Log.i("verifyResponse", response)
+
+                updateMessage("Success!")
+            } catch (e: Exception) {
+                Log.e("DocumentVerification", e.localizedMessage ?: "")
+            }
+        }
+    }
+
+
+    private fun verifyImage(pagesImage: ByteArray, documentType: String): String {
+        val requestImageBody = pagesImage.toRequestBody("image/jpeg".toMediaType())
+
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("Pages", "image.jpg", requestImageBody)
+            .addFormDataPart("DocumentType", documentType)
+            .addFormDataPart("ClientReference", clientRef)
+            .build()
+
+
+        val request = Request.Builder()
+            .url("https://api.w2globaldata.com/document-verification/verify")
+            .addHeader("Authorization", "basic W2_API_KEY_HERE_NOT_LICENSE_KEY")
+            .method("POST", requestBody)
+            .build()
+
+
+        val extendedTimeoutClient: OkHttpClient = httpClient.newBuilder()
+            .readTimeout(100, TimeUnit.SECONDS)
+            .build()
+
+        val response = extendedTimeoutClient.newCall(request).execute()
+
+        return response.body!!.string()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
