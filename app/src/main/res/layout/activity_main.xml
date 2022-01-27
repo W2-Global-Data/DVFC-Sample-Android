@@ -85,5 +85,17 @@
             android:layout_height="wrap_content"
             android:text="@string/verify_using_rest_endpoints" />
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/document_verification_classifyVerify" />
+
+        <Button
+            android:id="@+id/classifyVerifyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/classifyVerify" />
+
     </LinearLayout>
 </ScrollView>

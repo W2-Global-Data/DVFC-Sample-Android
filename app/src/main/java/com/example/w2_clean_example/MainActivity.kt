@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
         compareFacesButton.setOnClickListener { compareFaces() }
 
         verifyRestEndpointsButton.setOnClickListener { verifyUsingRestEndpoints() }
+
+        classifyVerifyButton.setOnClickListener { classifyVerifyDoc() }
     }
 
     private fun captureDoc() {
@@ -99,11 +101,41 @@ class MainActivity : AppCompatActivity() {
                 docVerifier.verify(
                     clientRef,
                     Document(ArrayList(listOf(page)), DocumentType.Id3)
-                ).also { Log.d("DocumentVerification", it.toString()) }
+                ).also {
+                    Log.d("DocumentVerification", it.toString()) }
 
                 updateMessage("Success!")
             } catch (e: Exception) {
                 Log.e("DocumentVerification", e.localizedMessage ?: "")
+            }
+        }
+    }
+
+    private fun classifyVerifyDoc() {
+        val image = docImage
+
+        if (image == null) {
+            Toast.makeText(this, "Capture a document image before verifying", Toast.LENGTH_LONG)
+                .show()
+            return
+        }
+
+        message.text = "Loading..."
+        GlobalScope.launch {
+            val docVerifier = DocumentVerificationClientBuilder(licenseKey).build()
+            val page = DocumentPage(image.toByteArray())
+
+            try {
+                docVerifier.classifyAndVerify(
+                    clientRef,
+                    true,
+                    Document(ArrayList(listOf(page)), DocumentType.Id3)
+                ).also {
+                    Log.d("DocumentClassificationVerification", it.toString()) }
+
+                updateMessage("Success!")
+            } catch (e: Exception) {
+                Log.e("DocumentClassificationVerification", e.localizedMessage ?: "")
             }
         }
     }
