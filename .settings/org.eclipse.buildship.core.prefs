@@ -1,11 +1,11 @@
-arguments=
+arguments=--init-script /var/folders/pj/3stt0g4x6l35fys6rx49q6mc0000gp/T/init1491338816041115761.gradle --init-script /var/folders/pj/3stt0g4x6l35fys6rx49q6mc0000gp/T/init548367154446403393.gradle
 auto.sync=false
 build.scans.enabled=false
 connection.gradle.distribution=GRADLE_DISTRIBUTION(WRAPPER)
 connection.project.dir=
 eclipse.preferences.version=1
 gradle.user.home=
-java.home=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
+java.home=/Users/w2macbook/Library/Java/JavaVirtualMachines/corretto-11.0.16.1/Contents/Home
 jvm.arguments=
 offline.mode=false
 override.workspace.settings=true
